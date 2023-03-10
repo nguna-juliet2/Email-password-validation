@@ -20,17 +20,17 @@ export const AuthContextProvider=(props)=>{
     const [token, setToken]= useState(initialToken);
     const userIsLoggedIn = !!token;
 
-
+    const logoutHandler =()=>{
+        setToken(null)
+        localStorage.removeItem('token');
+    };
     const  loginHandler =(token, experationTime)=>{
         setToken(token)
         localStorage.setItem('token', token);
         const Remainingtime = calculateRemainingTime(experationTime)
         setTimeout(logoutHandler, Remainingtime)
     };
-    const logoutHandler =()=>{
-        setToken(null)
-        localStorage.removeItem('token');
-    };
+    
 
     const contexValue ={
         token:token,
