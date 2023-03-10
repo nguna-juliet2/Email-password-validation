@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from 'react';
 
-import Login from './Componets/Login/Login';
-import Home from './Componets/Home/Home';
-import MainHeader from './Componets/MainHeder/MainHeader';
+import { Switch, Route } from 'react-router-dom';
+
+import Layout from './Componets/Layout/Layout';
+import UserProfile from './Componets/Profile/UserProfile';
+import AuthPage from './Pages/AuthPage';
+import HomePage from './Pages/HomePage';
 
 function App() {
-
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(()=>{
-    const LoggedInInfro = localStorage.getItem('isLoggedIn')
-    if (LoggedInInfro === '1'){
-      setIsLoggedIn(true)
-    }
-  }, []);
-
-
-
-  const loginHandler = (email, password) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
-    localStorage.setItem('isLoggedIn', '1')
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.removeItem('isLoggedIn')
-    setIsLoggedIn(false);
-
-  };
- 
-
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
-      <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
-      </main>
-    </React.Fragment>
+    <Layout>
+      <Switch>
+        <Route path='/' exact>
+          <HomePage />
+        </Route>
+        <Route path='/auth'>
+          <AuthPage />
+        </Route>
+        <Route path='/profile'>
+          <UserProfile />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 
